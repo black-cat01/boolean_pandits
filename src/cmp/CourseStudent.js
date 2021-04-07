@@ -27,7 +27,7 @@ function CourseStudent () {
     const fetchCourse = () => {
 
         let facId = auth.idnumber
-
+        console.log(facId);
         fetch('http://localhost:1337/Courses')
         .then(response=>response.json()).then((response) => {
             console.log(response);
@@ -40,7 +40,7 @@ function CourseStudent () {
     useEffect( () => {
 
         authCheck();
-        console.log("idnumber",auth.id);
+        console.log("idnumber",auth);
         fetchCourse();
     }, [] )
 

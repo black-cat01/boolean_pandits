@@ -7,7 +7,8 @@ class Nav extends Component{
     constructor(){
         super()
         this.state={
-            isAuth:false
+            isAuth:false,
+            uname:""
         }
 
     }
@@ -33,12 +34,18 @@ class Nav extends Component{
     checkAuth(key) {
         const auth = Cookie.get(key)
         console.log("checkLoggedIn",auth);
+        
 
         if(auth){
             this.setState({ isAuth : true })
+            // let userName = JSON.parse(Cookie.get('auth'))['name']
+            // console.log(userName);
+            // this.setState({ uname : userName })
+            
         }
         else{
             this.setState({ isAuth : false })
+            
         }
     }
 
@@ -66,6 +73,7 @@ class Nav extends Component{
                 </button>
             
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    
                     {this.state.isAuth ?
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
@@ -76,14 +84,22 @@ class Nav extends Component{
                         <Link to="courses">Courses</Link>
                         </li>
                     </ul>
+                    
                     <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                    <span class="navbar-text">
+                        {this.state.uname}
+                    </span>
+                    </li>
                     <li class="nav-item">
                     <button class="btn btn-outline-success my-2 my-sm-0" onClick={this.logout.bind(this)} type="submit"><Link to="/">Logout</Link></button>
                     </li>
+                    
                    </ul> 
                    </div>
                     :
                     null}
+                    
                     
 {/*                     
                     <ul class="navbar-nav ml-auto">

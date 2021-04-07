@@ -8,7 +8,8 @@ function CourseFaculty () {
     const [ courses, setList ] = useState([])
     const [ auth, setAuth ] = useState({})
     const [ role, setRole ] = useState("")
-    let facId = JSON.parse(Cookie.get('auth'))['id']
+    const [facultyName, setName]=useState("")
+
 
     const authCheck = () => {
 
@@ -28,7 +29,9 @@ function CourseFaculty () {
     const fetchCourse = () => {
 
         let facId = JSON.parse(Cookie.get('auth'))['id']
-
+        let facName = JSON.parse(Cookie.get('auth'))['name']
+        console.log(facName);
+        setName(facName)
         fetch('http://localhost:1337/Courses')
         .then(response=>response.json()).then((response) => {
             console.log(response);
@@ -47,28 +50,33 @@ function CourseFaculty () {
 
 
     return(
+            <div class="container">
+                <h3>
+                    Courses of {facultyName}
+                    
+                </h3>
+                <table class="table" style={{marginTop:'10px'}}>
+                    
+                <thead class="thead-light">
+                    <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">course ID</th>
+                    <th scope="col">course Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    { courses.map(d => (
+                            <tr>
+                            <th scope="row">{d.id}</th>
+                            <td>{d.courseid}</td>
+                            <td>{d.coursename}</td>
+                            
+                            </tr>
+                    )) }
 
-            <table class="table">
-            <thead class="thead-light">
-                <tr>
-                <th scope="col">#</th>
-                <th scope="col">course ID</th>
-                <th scope="col">course Name</th>
-                <th scope="col">Faculty</th>
-                </tr>
-            </thead>
-            <tbody>
-                { courses.map(d => (
-                        <tr>
-                        <th scope="row">{d.id}</th>
-                        <td>{d.courseid}</td>
-                        <td>{d.coursename}</td>
-                        <td>{facId}</td>
-                        </tr>
-                )) }
-
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
         )
 }
 
