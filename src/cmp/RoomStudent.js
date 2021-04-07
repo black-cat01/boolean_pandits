@@ -24,7 +24,7 @@ function RoomStudent() {
                     <div className="col-lg-3">
                         <div className="container" >
                         <div className="card-deck" >
-                            <div class="card bg-light"  >
+                            <div class="card text-center bg-light"  >
                                 <img class="card-img-top" src='https://27mi124bz6zg1hqy6n192jkb-wpengine.netdna-ssl.com/wp-content/uploads/2020/05/Classroom-Management-for-an-Effective-Learning-Environment-scaled.jpg' alt="Card image cap" />
                                 <div class="card-body">
                                     <h5 class="card-title">Room:{d.room}</h5>
@@ -41,7 +41,7 @@ function RoomStudent() {
                                             
                                         </div>
                                     }
-                                    <a href="#" class="btn btn-primary">more details</a>
+                                    
                                 </div>
                             </div>
                         </div>

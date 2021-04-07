@@ -1,27 +1,58 @@
-import React, { Component } from 'react';
+import React, { Component , useEffect} from 'react';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import Cookie from 'js-cookie'
 
 class Nav extends Component{
 
+    constructor(){
+        super()
+        this.state={
+            isAuth:false
+        }
 
+    }
 
     removeExistingItem(key) {
         if (Cookie.get(key) === null)
             return false;
-        Cookie.remove(key);
+        Cookie.set(key,null);
+        console.log(key);
         return true;
     }
     
     logout(event){
         event.preventDefault();
-        console.warn("state", Cookie.get("auth"))
+        console.warn("state", Cookie.get('auth'))
         
         
-        this.removeExistingItem("auth")
+        this.removeExistingItem('auth')
+        this.checkAuth('auth')
      
     }
+
+    checkAuth(key) {
+        const auth = Cookie.get(key)
+        console.log("checkLoggedIn",auth);
+
+        if(auth){
+            this.setState({ isAuth : true })
+        }
+        else{
+            this.setState({ isAuth : false })
+        }
+    }
+
+    
+
+    componentDidMount() {
+        this.checkAuth('auth')
+        console.log("reBooted");
+      }
+
+      
     render(){
+        console.log("Logged",this.state.isAuth)
+
         return(
             // <div className="navbar navbar-dark bg-dark">
             //     <Link to="home">Home</Link>
@@ -35,6 +66,8 @@ class Nav extends Component{
                 </button>
             
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    {this.state.isAuth ?
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item active" style={{marginRight:'10px'},{marginLeft:'5px'}}>
                         <Link to="home">Home <span class="sr-only">(current)</span></Link>
@@ -43,29 +76,25 @@ class Nav extends Component{
                         <Link to="courses">Courses</Link>
                         </li>
                     </ul>
+                    <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                    <button class="btn btn-outline-success my-2 my-sm-0" onClick={this.logout.bind(this)} type="submit"><Link to="/">Logout</Link></button>
+                    </li>
+                   </ul> 
+                   </div>
+                    :
+                    null}
                     
-                    {/* if (!{isauth}) {
-                       <ul class="navbar-nav ml-auto">
-                        <li class="nav-item">
-                        <Link to="/" >Login</Link>
-                        </li>
-                       </ul> 
-                    } else{
-                        <ul class="navbar-nav ml-auto">
-                        <li class="nav-item">
-                        <Link to="#">Logout</Link>
-                        </li>
-                       </ul>
-                    }
-                     */}
+{/*                     
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
                         <Link to="/">Login</Link>
                         </li>
                         <li class="nav-item">
-                        {/* <button class="btn btn-outline-success my-2 my-sm-0" onClick={this.logout.bind(this)} type="submit">Logout</button> */}
+                         <button class="btn btn-outline-success my-2 my-sm-0" onClick={this.logout.bind(this)} type="submit">Logout</button> 
                         </li>
-                    </ul>
+                    </ul> */}
+
                 </div>
           </div>
         );

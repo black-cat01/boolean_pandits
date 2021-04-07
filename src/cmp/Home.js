@@ -1,14 +1,34 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import Cookie from 'js-cookie'
 import RoomStudent from './RoomStudent'
-import RoomAdmin from './RoomAdmin'
-import AddNewRoom from './AddNewRoom'
+import RoomAdmin from './RoomAdmin' 
+import RoomFaculty from './RoomFaculty'
 
 
 function Home () {
 
-    const token = JSON.parse(Cookie.get('auth'))
-    const role = token['role']
+    const [ auth, setAuth ] = useState({})
+    const [ role, setRole ] = useState("")
+
+
+    const authCheck = () => {
+
+        if(Cookie.getJSON('auth')){
+
+            setAuth(JSON.parse(Cookie.get('auth')))
+            let role = JSON.parse(Cookie.get('auth'))['role']
+            setRole(role)
+            console.log('role',role);
+        }
+        else{
+            setAuth(null)
+        }
+    }
+
+    useEffect(()=>{
+        
+        authCheck();
+    },[])
 
     return(
         <div>
@@ -16,7 +36,7 @@ function Home () {
                 role==='student'?<RoomStudent />: null
             }
             {
-                role==='faculty'?<div className="container"><RoomStudent /></div>: null
+                role==='faculty'?<div className="container"><RoomFaculty /></div>: null
             }
             {
                 role==='admin'?<RoomAdmin />: null
