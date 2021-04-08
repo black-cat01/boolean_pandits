@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useHistory, useParams } from "react-router-dom";
+import emailjs from "emailjs-com";
 
 const EditRoom = () => {
   let history = useHistory();
@@ -14,6 +15,16 @@ const EditRoom = () => {
 
   const { room, isavailable, course, faculty} = newroom;
 
+  function sendEmail(e) {
+    e.preventDefault();
+    emailjs.sendForm('service_1yqiikd', 'template_gdjwz19', e.target, 'user_1IAkUU0WrVFico9Jy9Kf3')
+      .then((result) => {
+        console.log(result.text);
+      }, (error) => {
+        console.log(error.text);
+      });
+  }
+
   const onInputChange = e => {
     setRoom({ ...newroom, [e.target.name]: e.target.value });
   };
@@ -26,6 +37,7 @@ const EditRoom = () => {
     e.preventDefault();
     await axios.put(`http://localhost:1337/rooms/${id}`, newroom);
     history.push("/home");
+    sendEmail(e);
   };
 
   const loadRoom = async () => {

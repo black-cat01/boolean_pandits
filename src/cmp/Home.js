@@ -32,15 +32,18 @@ function Home () {
 
     return(
         <div>
-            {
-                role==='student'?<RoomStudent />: null
-            }
-            {
-                role==='faculty'?<div className="container"><RoomFaculty /></div>: null
-            }
-            {
-                role==='admin'?<RoomAdmin />: null
-            }
+            <h1>Welcome {auth.name}</h1>
+            <div className="container">
+                {
+                    role==='student'?<RoomStudent />: null
+                }
+                {
+                    role==='faculty'?<div className="container"><RoomFaculty /></div>: null
+                }
+                {
+                    role==='admin'?<RoomAdmin />: null
+                }
+            </div>
         </div>
     )
 

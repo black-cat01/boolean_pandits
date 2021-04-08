@@ -26,15 +26,22 @@ function CourseStudent () {
 
     const fetchCourse = () => {
 
-        let facId = auth.idnumber
-        console.log(facId);
-        fetch('http://localhost:1337/Courses')
+        
+        let facId = JSON.parse(Cookie.get('auth'))['id']
+        let facName = JSON.parse(Cookie.get('auth'))['name']
+        console.log(facId)
+        
+        fetch('http://localhost:1337/students')
         .then(response=>response.json()).then((response) => {
             console.log(response);
-            let temp = response.filter((d) => (d.faculties.find((i)=>(i.idnumber == facId))))
-            console.log(temp);
-            setList(response)
+            let temp = response.find((d) => (d.name.id == facId))
+            console.log(temp.courses);
+            setList(temp.courses)
         })
+        .catch(error=>{
+                console.log("sorry something went wrong",error);
+            })
+
     }
 
     useEffect( () => {
@@ -46,7 +53,20 @@ function CourseStudent () {
 
     return (
         <div>
-            
+            {
+                courses.map(d=>{
+                    return(
+                        <div class="card">
+                          <div class="card-body">
+                            <blockquote class="blockquote">
+                              <p>{d.coursename}</p>
+                              <footer class="card-blockquote">Course Id :<cite title="Source title"> <strong>{d.courseid}</strong></cite></footer>
+                            </blockquote>
+                          </div>
+                        </div>
+                    )
+                })
+            }
         </div>
     )
 }
